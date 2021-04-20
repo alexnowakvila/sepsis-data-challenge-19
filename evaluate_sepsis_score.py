@@ -45,7 +45,7 @@
 import numpy as np, os, os.path, sys, warnings
 import pdb
 
-def evaluate_sepsis_score_bis(y_true, probs, preds):
+def evaluate_sepsis_score(y_true, probs, preds):
     # Set parameters.
     label_header       = 'SepsisLabel'
     prediction_header  = 'PredictedLabel'
@@ -139,7 +139,7 @@ def evaluate_sepsis_score_bis(y_true, probs, preds):
 
     return auroc, auprc, accuracy, f_measure, normalized_observed_utility
 
-def evaluate_sepsis_score(label_directory, prediction_directory):
+def evaluate_sepsis_score_old(label_directory, prediction_directory):
     # Set parameters.
     label_header       = 'SepsisLabel'
     prediction_header  = 'PredictedLabel'

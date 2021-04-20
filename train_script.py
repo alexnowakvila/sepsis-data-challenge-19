@@ -27,8 +27,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, \
     average_precision_score, balanced_accuracy_score, f1_score, \
     precision_score, recall_score
 
-from evaluate_sepsis_score import evaluate_sepsis_score_bis \
-    as evaluate_sepsis_score
+from evaluate_sepsis_score import evaluate_sepsis_score
 from models import *
 import xgboost as xgb
 
@@ -65,15 +64,6 @@ def test(model, data_x, data_y):
                 Scores_b, Labels_b)
             print_table(res_method, res_baseline)
 
-
-# def subsample_dataset(X_train, y_train, num=5000):
-#     # find positive examples
-#     y_train_lab = np.array([y.max() for y in y_train])
-#     indices_0 =  y_train[y_train_lab == 0]
-#     indices_1 =  y_train[y_train_lab == 1]
-
-#     pdb.set_trace()
-
 def remove_nosepsis(X_train, y_train):
     n_train = len(X_train)
     X_train_n = []
@@ -84,8 +74,6 @@ def remove_nosepsis(X_train, y_train):
             y_train_n.append(y_train[i])
     return X_train_n, y_train_n
 
-
-
 if __name__ == '__main__':
     np.random.seed(42)
 
@@ -94,9 +82,9 @@ if __name__ == '__main__':
     ###########################################################################
 
     # Load dataset(s)
-    # directories = ["training_setA"]
+    directories = ["training_setA"]
     # directories = ["training_setB"]
-    directories = ["training_setB", "training_setA"]
+    # directories = ["training_setB", "training_setA"]
     # directories = ["training_setA"]
     data = Data()
     data.load_data(directories)
