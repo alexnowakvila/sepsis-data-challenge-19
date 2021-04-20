@@ -109,19 +109,31 @@ class Data(object):
         plt.xlabel(covariate)
         plt.show()
     
-    def fill_NaN(self):
+    def fill_NaN(self, form=0):
         for i, x in enumerate(self.data):
             df = pd.DataFrame(data=x)
-            df.fillna(method='ffill', inplace=True)
-            df.fillna(method='bfill', inplace=True)
-            # pdb.set_trace()
-            self.data[i] = df.to_numpy()
-            self.data[i] = np.nan_to_num(self.data[i])
+            if form == 0:
+                df.fillna(method='ffill', inplace=True)
+                df.fillna(method='bfill', inplace=True)
+                self.data[i] = df.to_numpy()
+            else:
+                self.data[i] = np.nan_to_num(self.data[i])
         self.data_matrix = np.concatenate(self.data, axis=0)  # concat data
 
-    def add_feature(self):
+    def add_feature(self, k):
         for i, x in enumerate(self.data):
-            a = (x[:, -1] > 58).astype(float)
+            # add average of k previous data points
+            length = x.shape[0]
+            if k > 1:
+                x_beg = np.expand_dims(x[0, :34], 0) * np.ones((k, 1))
+                x_temp = x[:, :34]
+                x_temp = np.concatenate((x_beg, x_temp), axis=0)
+                x_conc = [np.mean(x_temp[j:j+1+k-1], axis=0) \
+                    for j in range(length)]
+                x_conc = np.stack(x_conc, axis=0)
+                x = np.concatenate((x, x_conc), axis=1)
+            # add handcrafted features
+            a = (x[:, 39] > 58).astype(float)
             b = x[:, 0] / x[:, 3]
             c = x[:, 20] / x[:, 19]
             new_feat = np.stack([a, b, c], axis=1)

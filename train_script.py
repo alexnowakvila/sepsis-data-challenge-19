@@ -33,9 +33,10 @@ from models import *
 import xgboost as xgb
 
 def print_table(res_method, res_baseline):
-    headers = ["AUROC", "AUPRC", "ACCURACY", "F1", "UTILITY:"]
-    res_method = ["{:.6f}".format(res) for res in res_method]
-    res_baseline = ["{:.6f}".format(res) for res in res_baseline]
+    headers = [" ", "AUROC", "AUPRC", "ACCURACY", "F1", "UTILITY:"]
+    res_method = ["method"] + ["{:.6f}".format(res) for res in res_method]
+    res_baseline = ["baseline"] + \
+        ["{:.6f}".format(res) for res in res_baseline]
     table_data = [headers, res_method, res_baseline]
     table = AsciiTable(table_data)
     print(table.table)
@@ -93,9 +94,9 @@ if __name__ == '__main__':
     ###########################################################################
 
     # Load dataset(s)
-    directories = ["training_setA"]
+    # directories = ["training_setA"]
     # directories = ["training_setB"]
-    # directories = ["training_setB", "training_setA"]
+    directories = ["training_setB", "training_setA"]
     # directories = ["training_setA"]
     data = Data()
     data.load_data(directories)
@@ -118,8 +119,10 @@ if __name__ == '__main__':
     # data pre-processing
     ###########################################################################
 
-    data.add_feature()
-    data.fill_NaN()
+    data.add_feature(0)
+    data.fill_NaN(0)
+    data.fill_NaN(1)
+    
     
     ###########################################################################
     # split data

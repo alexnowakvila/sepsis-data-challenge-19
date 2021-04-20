@@ -128,11 +128,13 @@ class IndependentModel(object):
         scores = np.zeros(length)
         labels = np.zeros(length)
         for t in range(length):
-            current_data = x[self.k:t+self.k+1]
+            current_data = x[:t+1]
             current_score, current_label = self.get_sepsis_score(current_data)
             scores[t] = current_score
             labels[t] = current_label
         return scores, labels
+
+        
 
 
         
