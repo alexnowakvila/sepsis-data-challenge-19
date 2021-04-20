@@ -134,9 +134,7 @@ class Data(object):
                 x = np.concatenate((x, x_conc), axis=1)
             # add handcrafted features
             a = (x[:, 39] > 58).astype(float)
-            b = x[:, 0] / x[:, 3]
-            c = x[:, 20] / x[:, 19]
-            new_feat = np.stack([a, b, c], axis=1)
+            new_feat = np.expand_dims(a, 1)
             x = np.concatenate((x, new_feat), axis=1)
             self.data[i] = x
         self.data_matrix = np.concatenate(self.data, axis=0)  # concat data
